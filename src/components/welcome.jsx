@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import ParticleBackground from "./particle-background";
 
 const Font_weights = {
     subtitle: { min: 100, max: 400, default: 100 },
@@ -14,8 +15,8 @@ const renderText = (text, className, baseWeight = 400) => {
             className={className}
             style={{ fontVariationSettings: `'wght' ${baseWeight}` }}
         >
-      {char === " " ? "\u00A0" : char}
-    </span>
+            {char === " " ? "\u00A0" : char}
+        </span>
     ));
 };
 
@@ -23,7 +24,7 @@ const setupTextHover = (container, type) => {
     if (!container) return;
 
     const letters = container.querySelectorAll("span");
-    const { min, max, default:base } = Font_weights[type];
+    const { min, max, default: base } = Font_weights[type];
 
     const animateLetter = (el, weight, duration = 0.25) => {
         gsap.to(el, {
@@ -47,7 +48,7 @@ const setupTextHover = (container, type) => {
         });
     };
     const handleMouseLeave = () =>
-        letters.forEach((letter) => animateLetter(letter, base,0.3))
+        letters.forEach((letter) => animateLetter(letter, base, 0.3))
 
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("mouseleave", handleMouseLeave);
@@ -81,7 +82,7 @@ function Welcome() {
             <h1 ref={titleRef} className="mt-7">
                 {renderText("portfolio", "text-9xl italic font-georama", 400)}
             </h1>
-
+            {/* <ParticleBackground className="absolute" /> */}
             <div className="small-screen">
                 <p>This site is only designed for desktop and tablet screens.</p>
             </div>
