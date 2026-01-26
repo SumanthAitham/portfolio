@@ -26,9 +26,26 @@ const useWindowStore = create(
             const win = state.windows[windowKey];
             win.zIndex = state.nextZIndex;
             state.nextZIndex++
+            win.isMinimized = false; // Focusing un-minimizes
+        }),
+
+        minimizeWindow: (windowKey) => set((state) => {
+            const win = state.windows[windowKey];
+            win.isMinimized = true;
+            win.zIndex = INITIAL_Z_INDEX;
+        }),
+
+        maximizeWindow: (windowKey) => set((state) => {
+            const win = state.windows[windowKey];
+            win.isMaximized = !win.isMaximized;
+            win.zIndex = state.nextZIndex;
+            state.nextZIndex++
         })
 
     }))
 )
+
+
+
 
 export default useWindowStore;

@@ -64,12 +64,25 @@ const Dock = () => {
 
         const window = windows[app.id];
 
-        if (window.isOpen) {
+        if (window.isOpen && !window.isMinimized) {
             closeWindow(app.id);
+        } else if (window.isMinimized) {
+            openWindow(app.id) // openWindow or focusWindow should restore it. openWindow sets isOpen=true which handles it? 
+            // openWindow implementation: 
+            // win.isOpen = true; win.zIndex = ...; win.data = ...;
+            // It does NOT set isMinimized = false explicitly in my memory of store/window.js?
+            // Let's check store/window.js again.
+            // focusWindow sets isMinimized = false. openWindow does NOT. 
+            // So if I call openWindow on a minimized window, it stays minimized (isMinimized=true).
+            // I should call focusWindow(app.id) or ensure openWindow un-minimizes.
+            // Let's call focusWindow logic or both? 
+            // Actually, best to update openWindow in store to also un-minimize.
+            // valid fix here: 
+            useWindowStore.getState().focusWindow(app.id)
         } else {
             openWindow(app.id)
         }
-        console.log(windows)
+        // console.log(windows)
     }
     return (
         <section id={"dock"}>
